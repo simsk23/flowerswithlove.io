@@ -1,6 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <style>
+  #mobile-block {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  #mobile-block.active {
+    display: flex;
+  }
+  #mobile-block h1 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  #mobile-block p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  body.mobile-blocked {
+    overflow: hidden; /* Блокируем прокрутку основного контента */
+  }
+</style>
+<script>
+  (function() {
+    'use strict';
+    
+    // Функция для определения мобильного устройства
+    function isMobileDevice() {
+      // Проверяем по User-Agent
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      
+      // Регулярные выражения для мобильных устройств
+      const mobileRegex = /android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od|ad)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series[46]0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i;
+      
+      // Проверяем по размеру экрана
+      const isSmallScreen = window.innerWidth <= 768 || window.innerHeight <= 768;
+      
+      // Возвращаем true, если User-Agent указывает на мобильное устройство 
+      // ИЛИ экран маленький (на случай, если User-Agent подменен)
+      return mobileRegex.test(userAgent) || isSmallScreen;
+    }
+    
+    // Функция для блокировки сайта
+    function blockMobileAccess() {
+      // Добавляем класс к body для блокировки прокрутки
+      document.body.classList.add('mobile-blocked');
+      
+      // Создаем элемент для отображения сообщения
+      const blockDiv = document.createElement('div');
+      blockDiv.id = 'mobile-block';
+      blockDiv.className = 'active';
+      blockDiv.innerHTML = `
+        <div>
+          <h1>Доступ с мобильных устройств ограничен</h1>
+          <p>Пожалуйста, откройте этот сайт на компьютере или планшете для корректного отображения.</p>
+          <p>С уважением,<br>Администрация сайта</p>
+        </div>
+      `;
+      
+      // Добавляем элемент в DOM
+      document.body.appendChild(blockDiv);
+      
+      // Скрываем основной контент
+      const mainContent = document.querySelector('body > *:not(#mobile-block):not(style):not(script)');
+      if (mainContent) {
+        mainContent.style.display = 'none';
+      }
+    }
+    
+    // Проверяем устройство при загрузке страницы
+    if (isMobileDevice()) {
+      // Ждем полной загрузки DOM
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', blockMobileAccess);
+      } else {
+        blockMobileAccess();
+      }
+    }
+  })();
+</script>
+
+        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
