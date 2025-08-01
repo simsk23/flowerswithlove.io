@@ -36,8 +36,6 @@ setInterval(() => {
     updateCarousel();
 }, 3000); // каждые 3 секунды
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
     // Синхронизация каруселей 1
     const carouselContainer1 = document.querySelector('.new-carousel-container-1');
@@ -77,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let currentIndex2 = 0;
 
-carouselContainer2.querySelector('.new-carousel-control-2.prev').addEventListener('click', () => {
+        carouselContainer2.querySelector('.new-carousel-control-2.prev').addEventListener('click', () => {
             currentIndex2 = (currentIndex2 - 1 + slidesImages2.length) % slidesImages2.length;
             updateCarousel(carouselTrackImages2, slidesImages2, currentIndex2);
             updateCarousel(carouselTrackText2, slidesText2, currentIndex2);
@@ -90,9 +88,71 @@ carouselContainer2.querySelector('.new-carousel-control-2.prev').addEventListene
         });
     }
 });
+
 document.addEventListener('DOMContentLoaded', () => {
     const links = document.querySelectorAll('nav a');
     links.forEach((link, index) => {
         link.style.setProperty('--i', index);
+    });
+});
+
+// Функция открытия модального окна
+function openModal(modalId, imgSrc) {
+    const modal = document.getElementById(modalId);
+    const modalImg = modal.querySelector('.modal-content');
+    modal.style.display = 'block';
+    modalImg.src = imgSrc;
+}
+
+// Функция закрытия модального окна
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.style.display = 'none';
+}
+
+// Добавляем обработчики после загрузки DOM
+document.addEventListener('DOMContentLoaded', function () {
+    // Найдем все модальные окна
+    const modals = document.querySelectorAll('.modal');
+
+    // Добавим обработчик клика для каждого модального окна
+    modals.forEach(modal => {
+        modal.addEventListener('click', function(event) {
+            // Проверяем, кликнули ли мы непосредственно на модальное окно (фон)
+            // или на кнопку закрытия (крестик)
+            if (event.target === modal || event.target.classList.contains('close')) {
+                // Скрываем модальное окно
+                modal.style.display = 'none';
+            }
+            // Если клик был по изображению или другим элементам внутри .modal-content,
+            // ничего не делаем, чтобы изображение не закрывалось при клике на себя
+        });
+    });
+
+    // Добавим обработчик клика для затемнённой части возле фотографии
+    document.querySelectorAll('.modal-content').forEach(modalContent => {
+        modalContent.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    });
+
+    // Также можно добавить закрытие по нажатию клавиши Escape
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            modals.forEach(modal => {
+                if (modal.style.display === 'block') {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+    });
+
+    // Закрытие модального окна при нажатии на кнопку "minimize" на мобильных устройствах
+    window.addEventListener('popstate', function() {
+        modals.forEach(modal => {
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none';
+            }
+        });
     });
 });
