@@ -74,14 +74,6 @@ p {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease;
 }
-.hero-text .pad div:first-child {
-    font-size: 2.5em; /* Увеличиваем размер шрифта */
-    color: #ffffff; /* Меняем цвет на более яркий */
-    font-weight: bold; /* Делаем текст жирным */
-    text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.616); /* Добавляем тень для выделения */
-    
-}
-
 .text-carousel-slide-1 .text-item:hover,
 .text-carousel-slide-2 .text-item:hover {
     transform: translateY(-3px);
@@ -886,3 +878,4 @@ header {
 .main-menu{
     display: inline-flex;
 }
+
