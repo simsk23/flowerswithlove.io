@@ -21,6 +21,8 @@ body {
     background-color: #fff;
 }
 
+
+
 /* === Заголовки === */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif;
@@ -28,6 +30,11 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 1rem;
     font-weight: 700;
     color: #2c2c2c;
+}
+
+/* Delivery text styling */
+.delivery-text {
+    font-weight: 700;
 }
 
 h1 {
@@ -74,6 +81,7 @@ p {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease;
 }
+
 .text-carousel-slide-1 .text-item:hover,
 .text-carousel-slide-2 .text-item:hover {
     transform: translateY(-3px);
@@ -86,6 +94,128 @@ p {
     font-weight: bold;
 }
 
+/* === Мобильная адаптация === */
+/* Ensure the website looks the same on mobile phones as it does on computers */
+@media (max-width: 768px) {
+    /* Adjust header and navigation */
+    header {
+        padding: 10px 0;
+    }
+
+    .header-flex {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .phone-contact {
+        width: 100%;
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    .movi nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .movi nav a {
+        padding: 4px 8px;
+        margin-bottom: 5px;
+    }
+
+    /* Adjust hero section */
+    #hero {
+        flex-direction: column;
+        padding: 50px 20px;
+        height: auto;
+    }
+
+    #hero img {
+        width: 100%;
+        height: auto;
+    }
+
+    .hero-text {
+        padding: 20px;
+    }
+
+    .hero-text h2 {
+        font-size: 1.8em;
+    }
+
+    /* Adjust bio section */
+    #bio {
+        flex-direction: column;
+        padding: 10px;
+        margin: 10px;
+        padding-left: 0;
+    }
+
+    .bio-text {
+        padding-right: 0;
+    }
+
+    .bio-image {
+        padding-left: 0;
+        margin-top: 20px;
+    }
+
+    .bio-image img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Adjust work section */
+    #works {
+        padding: 20px;
+        transform: none;
+    }
+
+    .works-container {
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .work {
+        flex-direction: column;
+        margin-bottom: 30px;
+    }
+
+    .work-description {
+        margin-right: 0;
+        margin-top: 20px;
+        padding-right: 0;
+    }
+
+    .work img {
+        width: 100%;
+        max-width: none;
+        height: auto;
+        margin-right: 0;
+        margin-left: 0;
+        border-radius: 10px;
+    }
+
+    /* Adjust contact section */
+    #contact {
+        padding: 20px;
+    }
+
+    /* General adjustments */
+    .pad {
+        padding-bottom: 50px;
+    }
+
+    .text-item {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    .carousel-slide img {
+        width: 100%;
+        height: auto;
+    }
+}
 
 /* Стили для геро-секции */
 .hero-title-wrapper {
@@ -101,7 +231,7 @@ p {
     align-items: left;
     justify-content: center;
     position: relative;
-} 
+}
 
 .hero-title-wrapper .image-container img {
     border-radius: 20px;
@@ -292,6 +422,21 @@ p {
     border-top: solid 5px #ffff;
     height: 280px;
     overflow: hidden;
+}
+
+
+
+/* Новый класс для заднего фона с указанными размерами */
+.delivery-background {
+    width: 400px;
+    height: 120px;
+    background-color: #f9f9f9; /* Цвет фона */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px; /* Скругление углов */
+    margin: 0 auto; /* Центрирование по горизонтали */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Тень для объема */
 }
 
 .hero-text {
@@ -636,29 +781,6 @@ nav a {
     min-width: 100%;
     display: flex;
     justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 15px;
-    padding: 15px 0;
-}
-
-.carousel-slide img {
-    width: calc(25% - 15px);
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.carousel-slide img:hover {
-    transform: scale(1.05);
-}
-
-.carousel-control {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
     font-size: 2em;
@@ -878,4 +1000,3 @@ header {
 .main-menu{
     display: inline-flex;
 }
-
