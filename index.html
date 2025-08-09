@@ -52,7 +52,7 @@
                     <img src="img/photo_2025-07-14_17-38-31 (1).png" alt="Logo Image" style="transform: scale(0.8); margin-bottom: -120px; padding-top: 0px; left: 160px;margin-left: 50px; border-radius: 20px;">
                     <div class="pad" style = 'margin-bottom:-40px ;'>
                
-<div style = ' color:#fff; font-size: 32px; padding-top: 60px;'>Доставка цветов в Смоленске </div>
+<div style = ' color:#fff; font-size: 42px; padding-top: 60px;'>Доставка цветов в Смоленске </div>
 
 <div style="font-size: 1.5em;">Мы помогаем проявлять любовь</div>
                     </div>
@@ -457,96 +457,128 @@
 
     <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
     <script src="beg.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', function () {
-    // Найдём контейнеры каруселей
-    const carouselContainer = document.querySelector('.new-carousel-container-1');
-    if (!carouselContainer) return;
+<script>
+    // === Универсальная функция открытия модального окна ===
+    function openModal(modalId, imgSrc) {
+        // Если передан src, используем его, иначе пытаемся получить из события (для общего обработчика)
+        const src = imgSrc || (event && event.target && event.target.src);
+        if (!src) {
+            console.error('Не удалось определить источник изображения для модального окна.');
+            return;
+        }
 
-    const imageTrack = carouselContainer.querySelector('.new-carousel-1');
-    const textTrack = carouselContainer.querySelector('.text-carousel-1');
+        const modal = document.getElementById(modalId);
+        const modalImg = modal ? modal.querySelector('.modal-content') : null;
 
-    const imageSlides = Array.from(imageTrack.children);
-    const textSlides = Array.from(textTrack.children);
-
-    const prevBtn = carouselContainer.querySelector('.prev');
-    const nextBtn = carouselContainer.querySelector('.next');
-
-    let currentIndex = 0;
-
-    // Ширина одного слайда (изображение + текст)
-    function getSlideWidth() {
-        return imageSlides[0].getBoundingClientRect().width;
+        if (modal && modalImg) {
+            modal.style.display = 'block';
+            modalImg.src = src;
+        } else {
+            console.error(`Модальное окно с id "${modalId}" или элемент .modal-content внутри него не найдено.`);
+        }
     }
 
-    // Обновление позиции каруселей
-    function updateCarousels() {
-        const slideWidth = getSlideWidth();
-        imageTrack.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-        textTrack.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+    // === Универсальная функция закрытия модального окна ===
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+        }
     }
 
-    // Обработчики кликов
-    prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + imageSlides.length) % imageSlides.length;
-        updateCarousels();
+    // === Обработчики событий после загрузки DOM ===
+    document.addEventListener('DOMContentLoaded', function () {
+        // --- Обработчики для модальных окон ---
+        const modals = document.querySelectorAll('.modal');
+
+        modals.forEach(modal => {
+            // Закрытие по клику на фон или крестик
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal || event.target.classList.contains('close')) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        // Закрытие по нажатию Escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                modals.forEach(modal => {
+                    if (modal.style.display === 'block') {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // --- Обработчики для изображений в каруселях ---
+        // Для первой карусели
+        const carouselImages1 = document.querySelectorAll('.new-carousel-slide-1 img');
+        carouselImages1.forEach(img => {
+            img.style.cursor = 'pointer'; // Добавим указатель для кликабельности
+            img.addEventListener('click', function() {
+                openModal('imageModal-1', this.src); // Открываем модальное окно 1
+            });
+        });
+
+        // Для второй карусели
+        const carouselImages2 = document.querySelectorAll('.new-carousel-slide-2 img');
+        carouselImages2.forEach(img => {
+            img.style.cursor = 'pointer';
+            img.addEventListener('click', function() {
+                openModal('imageModal-2', this.src); // Открываем модальное окно 2
+            });
+        });
+
+        // --- Обработчики для изображений в галерее ---
+        const galleryImages = document.querySelectorAll('#gallery .gallery-grid img');
+        galleryImages.forEach(img => {
+            img.style.cursor = 'pointer';
+            // У галереи свой обработчик в HTML, но можно унифицировать:
+            // img.addEventListener('click', function() { openModal('modal-gallery', this.src); });
+        });
+
+        // --- Обработчики для изображений в секции "Обо мне" ---
+        const bioImages = document.querySelectorAll('#bio .bio-images img');
+        bioImages.forEach(img => {
+            // У них уже есть обработчики в HTML, можно оставить как есть
+            // или унифицировать аналогично галерее/каруселям
+        });
+
+         // --- Обработчики для изображений в секции "Свадьба" ---
+        const weddingImages = document.querySelectorAll('#wedding .wedding-images img');
+        weddingImages.forEach(img => {
+            // У них уже есть обработчики в HTML
+        });
+
+         // --- Обработчики для изображений в коллаже мастер-классов ---
+        const collageImages = document.querySelectorAll('#masterclass .photo-collage .collage-img');
+        collageImages.forEach(img => {
+             img.style.cursor = 'pointer';
+             // Добавим модальные окна для коллажа, если нужно
+             // img.addEventListener('click', function() {
+             //     openModal('modal-collage', this.src);
+             // });
+             // Пока оставим без модального, но курсор добавим
+        });
     });
-
-    nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % imageSlides.length;
-        updateCarousels();
-    });
-
-    // Адаптация под изменение размера окна
-    window.addEventListener('resize', updateCarousels);
-});
-
-// === Синхронизация карусели 2 (изображения и текст) ===
-document.addEventListener('DOMContentLoaded', function () {
-    const carouselContainer = document.querySelector('.new-carousel-container-2');
-    if (!carouselContainer) return;
-
-    const imageTrack = carouselContainer.querySelector('.new-carousel-2');
-    const textTrack = carouselContainer.querySelector('.text-carousel-2');
-
-    const imageSlides = Array.from(imageTrack.children);
-    const textSlides = Array.from(textTrack.children);
-
-    const prevBtn = carouselContainer.querySelector('.prev');
-    const nextBtn = carouselContainer.querySelector('.next');
-
-    let currentIndex = 0;
-
-    // Ширина одного слайда
-    function getSlideWidth() {
-        return imageSlides[0].getBoundingClientRect().width;
-    }
-
-    // Обновление позиции каруселей
-    function updateCarousels() {
-        const slideWidth = getSlideWidth();
-        imageTrack.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-        textTrack.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-    }
-
-    // Обработчики кликов
-    prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + imageSlides.length) % imageSlides.length;
-        updateCarousels();
-    });
-
-    nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % imageSlides.length;
-        updateCarousels();
-    });
-
-    // Адаптация под изменение размера окна
-    window.addEventListener('resize', updateCarousels);
-});
+</script>
 
 </script>
 
+<!-- Модальное окно для первой карусели -->
+<div id="imageModal-1" class="modal">
+    <span class="close" onclick="closeModal('imageModal-1')">&times;</span>
+    <img class="modal-content" id="modalImage-1">
+</div>
+
+<!-- Модальное окно для второй карусели -->
+<div id="imageModal-2" class="modal">
+    <span class="close" onclick="closeModal('imageModal-2')">&times;</span>
+    <img class="modal-content" id="modalImage-2">
+</div>
+
 </body>
 </html>
-
 
 
